@@ -37,7 +37,7 @@ func TestNewTask(t *testing.T) {
 		t.Fail()
 	}
 
-	args := []string{"1", "2", "3"}
+	args := []interface{}{"1", "2", "3"}
 	kwargs := make(map[string]interface{})
 	kwargs["1"] = 2
 	kwargs["2"] = 3
@@ -67,7 +67,7 @@ func TestMarshalJson(t *testing.T) {
 	result := struct {
 		Task    string                  `json:"task"`
 		Id      string                  `json:"id"`
-		Args    *[]string               `json:"args"`
+		Args    *[]interface{}          `json:"args"`
 		KWArgs  *map[string]interface{} `json:"kwargs"`
 		Retries *int                    `json:"retries"`
 		ETA     *string                 `json:"eta"`
@@ -107,7 +107,7 @@ func TestMarshalJson(t *testing.T) {
 		t.Fail()
 	}
 
-	args := []string{"1", "2", "3"}
+	args := []interface{}{"1", "2", "3"}
 	kwargs := make(map[string]interface{})
 	kwargs["1"] = 2
 	kwargs["2"] = 3

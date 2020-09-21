@@ -7,9 +7,10 @@ package celery
 
 import (
 	"encoding/json"
-	"github.com/nu7hatch/gouuid"
-	"github.com/streadway/amqp"
 	"time"
+
+	"github.com/google/uuid"
+	"github.com/streadway/amqp"
 )
 
 // Celery task representation,
@@ -23,7 +24,7 @@ import (
 type Task struct {
 	Task    string
 	Id      string
-	Args    []string
+	Args    []interface{}
 	KWArgs  map[string]interface{}
 	Retries int
 	ETA     time.Time
@@ -33,8 +34,8 @@ type Task struct {
 const timeFormat = "2006-01-02T15:04:05.999999"
 
 // Returns a pointer to a new task object
-func NewTask(task string, args []string, kwargs map[string]interface{}) (*Task, error) {
-	id, err := uuid.NewV4()
+func NewTask(task string, args []interface{}, kwargs map[string]interface{}) (*Task, error) {
+	id, err := uuid.NewRandom()
 	if err != nil {
 		return nil, err
 	}
@@ -55,7 +56,7 @@ func (t *Task) MarshalJSON() ([]byte, error) {
 	type FormattedTask struct {
 		Task    string                 `json:"task"`
 		Id      string                 `json:"id"`
-		Args    []string               `json:"args,omitempty"`
+		Args    []interface{}          `json:"args,omitempty"`
 		KWArgs  map[string]interface{} `json:"kwargs,omitempty"`
 		Retries int                    `json:"retries,omitempty"`
 		ETA     string                 `json:"eta,omitempty"`
